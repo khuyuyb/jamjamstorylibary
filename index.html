@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Personal Story Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F3EF;--pn:#FBFBF9;--ink:#1C2326;--mu:#6B7479;--ln:#D9DCD5;--ac:#5A2D55;--acf:#fff;color-scheme:light;--serif:'Newsreader',Georgia,serif;--sans:'Instrument Sans',system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:var(--bg)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15171A;--pn:#1C1F23;--ink:#E7E5EA;--mu:#98A0A8;--ln:#2D3238;--ac:#D7A6D0;--acf:#15171A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15171A;--pn:#1C1F23;--ink:#E7E5EA;--mu:#98A0A8;--ln:#2D3238;--ac:#D7A6D0;--acf:#15171A;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--serif)}
+.wrap{max-width:960px;margin:0 auto;padding:16px}
+h1,h2,h3{font-weight:600;margin:0}
+h2{font-size:26px}h3{font-size:19px;margin:20px 0 6px}
+.brand{font-size:22px;font-style:italic;padding:8px 0}
+nav{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--ln);margin-bottom:20px}
+nav button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 12px;color:var(--mu);font:600 14px var(--sans);cursor:pointer;white-space:nowrap}
+nav button.on{color:var(--ink);border-color:var(--ac)}
+input,select,textarea{font:15px var(--sans);background:var(--pn);color:var(--ink);border:1px solid var(--ln);border-radius:6px;padding:8px 10px;width:100%}
+textarea{font-family:var(--serif);font-size:16px;resize:vertical}
+label{display:block;font:600 13px var(--sans);color:var(--mu);margin:10px 0}
+label input,label select,label textarea{margin-top:4px;font-weight:400;color:var(--ink)}
+button{font:600 14px var(--sans);cursor:pointer}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.b{background:var(--ac);color:var(--acf);border:0;border-radius:6px;padding:9px 16px}
+.g{background:none;color:var(--ink);border:1px solid var(--ln);border-radius:6px;padding:8px 14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.mu{color:var(--mu);font:14px var(--sans)}
+.st{padding:14px 2px;border-bottom:1px solid var(--ln);cursor:pointer}
+.st:hover .ti{color:var(--ac)}
+.ti{font-size:19px;font-weight:600}
+.meta{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 6px}
+.tg{display:inline-block;margin:0 4px 4px 0;padding:2px 10px;border-radius:99px;font:13px var(--sans);color:var(--ink);background:color-mix(in srgb,var(--c) 14%,transparent);border:1px solid var(--c)}
+button.tg{cursor:pointer;opacity:.55}button.tg.on{opacity:1;background:color-mix(in srgb,var(--c) 38%,transparent)}
+.big{font-size:84px;line-height:1;font-weight:400;margin:6px 0}
+.bar{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--ln);margin:12px 0 6px}
+.bar i{display:block}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin:22px 0;padding:14px 0;border-block:1px solid var(--ln)}
+.stats b{display:block;font-size:28px;font-weight:400}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.fl{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.g2{grid-template-columns:1fr}.big{font-size:64px}}
+dialog{width:min(680px,94vw);max-height:92vh;background:var(--bg);color:var(--ink);border:1px solid var(--ln);border-radius:10px;padding:20px}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.act{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.sb{background:none;border:0;font-size:24px;color:var(--ln);padding:0 2px}.sb.on{color:var(--ac)}
+.lb{font:600 13px var(--sans);color:var(--mu);margin:12px 0 6px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.empty{padding:28px 0;color:var(--mu);font-style:italic}
+.tr{display:grid;grid-template-columns:40px 1fr 140px 40px 60px;gap:8px;align-items:center;margin-bottom:8px}
+.tr input[type=color]{padding:2px;height:34px}
+.wg{display:grid;grid-template-columns:220px 1fr;gap:20px}
+@media(max-width:700px){.wg{grid-template-columns:1fr}.tr{grid-template-columns:40px 1fr 40px 60px}.tr select{display:none}}
+.di{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--ln);padding:10px 4px;color:var(--ink)}
+.di.on{border-left:3px solid var(--ac);padding-left:10px}
+.dt{font:600 24px var(--serif);border:0;border-bottom:1px solid var(--ln);border-radius:0;background:none}
+.tb{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:10px 0;position:static}
+.tb button{background:var(--pn);color:var(--ink);border:1px solid var(--ln);border-radius:5px;padding:4px 10px}
+.ed{min-height:340px;padding:18px;background:var(--pn);border:1px solid var(--ln);border-radius:6px;font-size:18px;line-height:1.75;max-width:70ch}
+.ed:focus{outline:2px solid var(--ac)}
+.ed blockquote{margin:1em 0;padding-left:14px;border-left:3px solid var(--ln);font-style:italic}
+mark{background:color-mix(in srgb,var(--ac) 30%,transparent);color:inherit}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cmp>div{padding:12px;background:var(--pn);border:1px solid var(--ln);border-radius:6px;max-height:60vh;overflow:auto}
+</style></head>
+<body><div class="wrap">
+<div class="brand">Personal Story Library</div>
+<nav id="nav"></nav>
+<main id="v"></main>
+</div>
+<dialog id="dlg"><div id="dc"></div></dialog>
+<script>
+const $=s=>document.querySelector(s);
+const E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9);
+const today=()=>new Date().toISOString().slice(0,10);
+const ST=[['to-read','To Read'],['reading','Reading'],['completed','Completed'],['on-hold','On Hold'],['dropped','Dropped'],['re-reading','Re-reading']];
+const stl=v=>(ST.find(s=>s[0]==v)||[0,v])[1];
+const stars=n=>'★'.repeat(n)+'☆'.repeat(5-n);
+const NAV=['home','library','collections','tags','favorites','words','settings'];
+let D={stories:[],tags:[],cols:[],docs:[],groups:['Genre','Tropes','Mood','Writing Style','Personal Notes','Custom Categories'],theme:'auto'};
+let raw=null;
+try{raw=localStorage.getItem('psl1');if(raw)D=Object.assign(D,JSON.parse(raw))}catch(e){}
+if(!raw){
+ [['Angst','Mood','#B5483C'],['Fluff','Mood','#D9A441'],['Slow Burn','Tropes','#8E4A7C'],['Hurt/Comfort','Tropes','#3F7F78'],['Friends to Lovers','Tropes','#4F6FA8'],['Beautiful Writing','Writing Style','#6B7A3F']].forEach(t=>D.tags.push({id:uid(),name:t[0],group:t[1],color:t[2]}));
+ ['Comfort Reads','Must Read','Re-read','Personal Archive'].forEach(n=>D.cols.push({id:uid(),name:n}));
+}
+const save=()=>{try{localStorage.setItem('psl1',JSON.stringify(D))}catch(e){}};
+const th=()=>{D.theme=='auto'?document.documentElement.removeAttribute('data-theme'):document.documentElement.setAttribute('data-theme',D.theme)};
+const norm=s=>s.trim().replace(/\s+/g,' ').toLowerCase();
+const tg=id=>D.tags.find(t=>t.id==id);
+const chip=id=>{const t=tg(id);return t?`<span class="tg" style="--c:${E(t.color)}">${E(t.name)}</span>`:''};
+const addTag=(name,group)=>{name=name.trim().replace(/\s+/g,' ');if(!name)return null;const x=D.tags.find(t=>norm(t.name)==norm(name));if(x)return x.id;const t={id:uid(),name,group:group||'Custom Categories',color:'#'+['5A2D55','3F7F78','B5483C','4F6FA8','D9A441'][D.tags.length%5]};D.tags.push(t);return t.id};
+const addCol=name=>{name=name.trim();if(!name)return null;const x=D.cols.find(c=>norm(c.name)==norm(name));if(x)return x.id;const c={id:uid(),name};D.cols.push(c);return c.id};
+const OK=['B','I','U','H2','BLOCKQUOTE','P','DIV','BR','MARK','STRONG','EM'];
+function clean(h){const t=document.createElement('template');t.innerHTML=h||'';const w=n=>[...n.childNodes].forEach(c=>{if(c.nodeType==1){if(!OK.includes(c.tagName)){c.replaceWith(document.createTextNode(c.textContent));return}[...c.attributes].forEach(a=>c.removeAttribute(a.name));w(c)}else if(c.nodeType!=3)c.remove()});w(t.content);return t.innerHTML}
+
+const row=s=>`<div class="st" data-a="os" data-id="${s.id}"><div class="ti">${E(s.title)}${s.fav?' ♥':''}</div><div class="meta mu"><span>${E(s.author)}</span>${s.fandom?`<span>${E(s.fandom)}</span>`:''}${s.pairing?`<span>${E(s.pairing)}</span>`:''}</div><div class="meta mu"><span>${stl(s.status)}</span>${s.rating?`<span>${stars(s.rating)}</span>`:''}</div><div>${s.tags.map(chip).join('')}</div></div>`;
+const empty=m=>`<div class="empty">${m}</div>`;
+const nav=()=>{$('#nav').innerHTML=NAV.map(n=>`<button data-a="go" data-id="${n}" class="${n==V?'on':''}">${n[0].toUpperCase()+n.slice(1)}</button>`).join('')};
+
+let V='home',F={q:'',status:'',rating:'',fandom:'',tags:[]},CC=null,W=null,cur=null;
+function R(){V=NAV.includes(location.hash.slice(1))?location.hash.slice(1):'home';nav();({home,library,collections,tags,favorites,words,settings})[V]()}
+
+function home(){
+ const n=D.stories.length,c=k=>D.stories.filter(s=>s.status==k).length;
+ const top=[...D.stories].filter(s=>s.rating).sort((a,b)=>b.rating-a.rating).slice(0,5);
+ const rec=[...D.stories].sort((a,b)=>b.added.localeCompare(a.added)).slice(0,5);
+ const dd=[...D.docs].sort((a,b)=>b.upd-a.upd).slice(0,5);
+ $('#v').innerHTML=`<div class="big">${n}</div><div>truyện trong thư viện của bạn</div>
+ ${n?`<div class="bar">${ST.map(([k],i)=>`<i style="flex:${c(k)};background:var(--ac);opacity:${1-i*.16}"></i>`).join('')}</div><div class="mu">${ST.filter(([k])=>c(k)).map(([k,l])=>l+' '+c(k)).join(', ')}</div>`:empty('Thư viện đang trống. Thêm truyện đầu tiên để bắt đầu.')}
+ <div class="act"><button class="b" data-a="ns">Thêm truyện</button><button class="g" data-a="nd">Viết trong Words</button></div>
+ <div class="stats"><div><b>${c('completed')}</b>đã đọc</div><div><b>${c('to-read')}</b>chưa đọc</div><div><b>${D.stories.filter(s=>s.fav).length}</b>yêu thích</div><div><b>${D.cols.length}</b>bộ sưu tập</div><div><b>${D.tags.length}</b>tag</div></div>
+ <div class="cols"><div><h3>Thêm gần đây</h3>${rec.map(row).join('')||empty('Chưa có truyện.')}</div><div><h3>Đánh giá cao nhất</h3>${top.map(row).join('')||empty('Chưa có đánh giá.')}</div>
+ <div><h3>Đang chỉnh sửa trong Words</h3>${dd.map(d=>`<div class="st" data-a="od" data-id="${d.id}"><div class="ti">${E(d.title||'Chưa đặt tên')}</div><div class="mu">${E(d.cat)}</div></div>`).join('')||empty('Chưa có tài liệu.')}</div></div>`;
+}
+
+const filt=a=>a.filter(s=>{const q=F.q.toLowerCase();return(!q||[s.title,s.author,s.fandom,s.pairing,s.chars,s.genre,s.tags.map(i=>(tg(i)||{}).name).join(' ')].join(' ').toLowerCase().includes(q))&&(!F.status||s.status==F.status)&&(!F.rating||s.rating>=+F.rating)&&(!F.fandom||s.fandom==F.fandom)&&F.tags.every(t=>s.tags.includes(t))});
+const list=()=>{const a=filt(D.stories).sort((a,b)=>b.added.localeCompare(a.added));$('#list').innerHTML=a.map(row).join('')||empty(D.stories.length?'Không có truyện khớp bộ lọc.':'Chưa có truyện. Bấm “Thêm truyện” để bắt đầu.')};
+function library(){
+ const fd=[...new Set(D.stories.map(s=>s.fandom).filter(Boolean))].sort();
+ $('#v').innerHTML=`<div class="top"><h2>Library</h2><button class="b" data-a="ns">Thêm truyện</button></div>
+ <input data-f="q" placeholder="Tìm theo tên, tác giả, fandom, pairing, nhân vật, tag" value="${E(F.q)}" style="margin-bottom:8px">
+ <div class="fl"><select data-f="status"><option value="">Mọi trạng thái</option>${ST.map(([k,l])=>`<option value="${k}" ${F.status==k?'selected':''}>${l}</option>`).join('')}</select>
+ <select data-f="fandom"><option value="">Mọi fandom</option>${fd.map(f=>`<option ${F.fandom==f?'selected':''}>${E(f)}</option>`).join('')}</select>
+ <select data-f="rating"><option value="">Mọi rating</option>${[5,4,3,2,1].map(n=>`<option value="${n}" ${F.rating==n?'selected':''}>Từ ${n} sao</option>`).join('')}</select></div>
+ <div>${D.tags.map(t=>`<button class="tg ${F.tags.includes(t.id)?'on':''}" style="--c:${E(t.color)}" data-a="ft" data-id="${t.id}">${E(t.name)}</button>`).join('')}</div><div id="list"></div>`;
+ list();
+}
+function favorites(){const a=D.stories.filter(s=>s.fav);$('#v').innerHTML=`<h2>Favorites</h2>${a.map(row).join('')||empty('Chưa có truyện yêu thích. Mở một truyện và bấm “Yêu thích”.')}`}
+
+function collections(){
+ const c=D.cols.find(x=>x.id==CC);
+ $('#v').innerHTML=`<h2>Collections</h2><div class="row" style="margin:12px 0"><input id="ncol" placeholder="Tên bộ sưu tập mới" style="max-width:300px"><button class="b" data-a="ac">Tạo</button></div>
+ <div>${D.cols.map(x=>`<button class="tg ${x.id==CC?'on':''}" style="--c:var(--ac)" data-a="sc" data-id="${x.id}">${E(x.name)} (${D.stories.filter(s=>s.cols.includes(x.id)).length})</button>`).join('')}</div>
+ ${c?`<div class="top" style="margin-top:18px"><h3>${E(c.name)}</h3><button class="g" data-a="dc" data-id="${c.id}">Xóa bộ sưu tập</button></div>${D.stories.filter(s=>s.cols.includes(c.id)).map(row).join('')||empty('Bộ sưu tập này chưa có truyện. Thêm từ trang chi tiết của truyện.')}`:empty('Chọn một bộ sưu tập để xem truyện.')}`;
+}
+
+function tags(){
+ const use=id=>D.stories.filter(s=>s.tags.includes(id)).length;
+ $('#v').innerHTML=`<h2>Tags</h2><div class="row" style="margin:12px 0"><input id="ntn" placeholder="Tag mới" style="max-width:220px"><select id="ntg" style="max-width:190px">${D.groups.map(g=>`<option>${E(g)}</option>`).join('')}</select><button class="b" data-a="at">Tạo tag</button></div>
+ <div class="row" style="margin-bottom:10px"><input id="ngr" placeholder="Nhóm tag mới" style="max-width:220px"><button class="g" data-a="ag">Thêm nhóm</button></div>
+ ${D.groups.map(g=>{const a=D.tags.filter(t=>t.group==g);return a.length?`<h3>${E(g)}</h3>`+a.map(t=>`<div class="tr"><input type="color" data-t="${t.id}" data-p="color" value="${E(t.color)}"><input data-t="${t.id}" data-p="name" value="${E(t.name)}"><select data-t="${t.id}" data-p="group">${D.groups.map(x=>`<option ${x==g?'selected':''}>${E(x)}</option>`).join('')}</select><span class="mu">${use(t.id)}</span><button class="g" data-a="dt" data-id="${t.id}">Xóa</button></div>`).join(''):''}).join('')||empty('Chưa có tag.')}`;
+}
+
+function settings(){
+ $('#v').innerHTML=`<h2>Settings</h2><label>Giao diện<select id="thm">${[['auto','Theo thiết bị'],['light','Sáng'],['dark','Tối']].map(([k,l])=>`<option value="${k}" ${D.theme==k?'selected':''}>${l}</option>`).join('')}</select></label>
+ <h3>Sao lưu và khôi phục</h3><p class="mu">Dữ liệu được lưu trong trình duyệt này. Hãy tạo bản sao lưu thường xuyên và lưu nội dung JSON vào nơi an toàn.</p>
+ <div class="act" style="margin:0 0 10px"><button class="b" data-a="ex">Tạo bản sao lưu</button><button class="g" data-a="cp">Sao chép</button><button class="g" data-a="im">Khôi phục từ nội dung bên dưới</button></div>
+ <textarea id="bk" rows="8" placeholder="Dán JSON sao lưu vào đây để khôi phục" style="font:13px monospace"></textarea>
+ <label>Hoặc chọn tệp JSON<input type="file" id="fi" accept=".json,application/json"></label><div id="msg" class="mu"></div>`;
+}
+
+function openStory(id){
+ const old=D.stories.find(x=>x.id==id);
+ const s=old?JSON.parse(JSON.stringify(old)):{id:uid(),title:'',author:'',url:'',platform:'AO3',chars:'',pairing:'',fandom:'',genre:'',lang:'Tiếng Việt',len:'',summary:'',status:'to-read',added:today(),tags:[],cols:[],rating:0,rec:'0',fav:false,review:'',quotes:'',moments:'',notes:''};
+ cur=s;cur._old=!!old;
+ const f=(k,l)=>`<label>${l}<input data-k="${k}" value="${E(s[k])}"></label>`;
+ const t=(k,l,r=3)=>`<label>${l}<textarea data-k="${k}" rows="${r}">${E(s[k])}</textarea></label>`;
+ $('#dc').innerHTML=`<h2>${old?'Chi tiết truyện':'Thêm truyện'}</h2>
+ ${f('title','Tên truyện')}<div class="g2">${f('author','Tác giả')}${f('url','Link gốc')}</div>
+ <div class="g2"><label>Nền tảng<input data-k="platform" list="pl" value="${E(s.platform)}"><datalist id="pl"><option>AO3<option>Wattpad<option>Tumblr<option>Khác</datalist></label>${f('lang','Ngôn ngữ')}</div>
+ <div class="g2">${f('fandom','Fandom')}${f('pairing','Pairing')}</div><div class="g2">${f('chars','Nhân vật')}${f('genre','Thể loại')}</div>
+ <div class="g2">${f('len','Số chương hoặc số từ')}<label>Trạng thái<select data-k="status">${ST.map(([k,l])=>`<option value="${k}" ${s.status==k?'selected':''}>${l}</option>`).join('')}</select></label></div>
+ ${t('summary','Tóm tắt')}<div id="pk"></div>
+ <h3>Đánh giá cá nhân (chỉ mình bạn thấy)</h3>${t('review','Cảm nhận',5)}${t('quotes','Câu văn yêu thích')}${t('moments','Khoảnh khắc đáng nhớ')}${t('notes','Ghi chú riêng')}
+ <div class="mu">Thêm vào thư viện: ${E(s.added)}</div>
+ <div class="act"><button class="b" data-a="ss">Lưu</button><button class="g" data-a="cl">Đóng</button>${old?`<button class="g" data-a="ds" style="margin-left:auto">Xóa truyện</button>`:''}</div>`;
+ pk();$('#dlg').showModal();
+}
+function pk(){const s=cur;$('#pk').innerHTML=`<div class="row"><span class="mu">Rating</span><span>${[1,2,3,4,5].map(i=>`<button class="sb ${i<=s.rating?'on':''}" aria-label="${i} sao" data-a="rt" data-n="${i}">★</button>`).join('')}</span><button class="g" data-a="fv">${s.fav?'♥ Đã yêu thích':'♡ Yêu thích'}</button></div>
+ <label>Mức độ muốn giới thiệu<select data-k="rec">${['Chưa chọn','Không giới thiệu','Tạm được','Nên đọc','Rất nên đọc','Đọc ngay'].map((l,i)=>`<option value="${i}" ${s.rec==i?'selected':''}>${l}</option>`).join('')}</select></label>
+ <div class="lb">Tags</div><div>${D.tags.map(t=>`<button class="tg ${s.tags.includes(t.id)?'on':''}" style="--c:${E(t.color)}" data-a="tt" data-id="${t.id}">${E(t.name)}</button>`).join('')}</div><input id="nt" placeholder="Tạo tag mới, nhấn Enter" style="margin-top:6px">
+ <div class="lb">Collections</div><div>${D.cols.map(c=>`<button class="tg ${s.cols.includes(c.id)?'on':''}" style="--c:var(--ac)" data-a="tc" data-id="${c.id}">${E(c.name)}</button>`).join('')}</div><input id="nc" placeholder="Tạo bộ sưu tập mới, nhấn Enter" style="margin-top:6px">`}
+
+const nd=()=>({id:uid(),title:'',cat:'',html:'',orig:'',notes:'',vs:[],upd:Date.now()});
+function words(){
+ const ds=[...D.docs].sort((a,b)=>b.upd-a.upd),d=D.docs.find(x=>x.id==W);
+ $('#v').innerHTML=`<div class="top"><h2>Words</h2><button class="b" data-a="nd">Tài liệu mới</button></div><div class="wg"><div>${ds.map(x=>`<button class="di ${x.id==W?'on':''}" data-a="od" data-id="${x.id}"><b>${E(x.title||'Chưa đặt tên')}</b><br><span class="mu">${E(x.cat)}</span></button>`).join('')||empty('Chưa có tài liệu. Bấm “Tài liệu mới” để viết.')}</div>
+ <div>${d?`<input class="dt" id="dt" placeholder="Tiêu đề" value="${E(d.title)}"><input id="dcat" placeholder="Phân loại, ví dụ: Bản dịch, Fic gốc" value="${E(d.cat)}" style="margin-top:8px">
+ <div class="tb" id="tb"><button data-x="bold"><b>B</b></button><button data-x="italic"><i>I</i></button><button data-x="h">Tiêu đề</button><button data-x="q">Trích dẫn</button><button data-x="m">Đánh dấu cần sửa</button><span class="mu" id="wc"></span><span class="mu" id="sv"></span></div>
+ <div class="ed" id="ed" contenteditable="true" spellcheck="true"></div>
+ <label>Ghi chú và danh sách điểm cần kiểm tra<textarea id="dn" rows="4">${E(d.notes)}</textarea></label>
+ <div class="act"><button class="g" data-a="vs">Lưu phiên bản</button><button class="g" data-a="so">Đặt làm bản gốc</button><button class="g" data-a="cmp">Đối chiếu với bản gốc</button><button class="g" data-a="hi">Lịch sử</button><button class="g" data-a="dup">Nhân bản</button><button class="g" data-a="dd" style="margin-left:auto">Xóa</button></div><div id="hist"></div>`:empty('Chọn hoặc tạo một tài liệu.')}</div></div>`;
+ if(d){$('#ed').innerHTML=clean(d.html);wc()}
+}
+function wc(){const t=$('#ed').innerText.trim();$('#wc').textContent=(t?t.split(/\s+/).length:0)+' từ, '+t.length+' ký tự'}
+let tm;function auto(){const d=D.docs.find(x=>x.id==W);if(!d)return;d.html=$('#ed').innerHTML;d.title=$('#dt').value;d.cat=$('#dcat').value;d.notes=$('#dn').value;d.upd=Date.now();wc();$('#sv').textContent='Đang lưu…';clearTimeout(tm);tm=setTimeout(()=>{save();$('#sv')&&($('#sv').textContent='Đã lưu')},600);const b=document.querySelector('.di.on b');if(b)b.textContent=d.title||'Chưa đặt tên'}
+
+document.addEventListener('input',e=>{const t=e.target;
+ if(t.dataset.k&&cur){cur[t.dataset.k]=t.value}
+ else if(t.dataset.f){F[t.dataset.f]=t.value;list()}
+ else if(t.id=='ed'||t.id=='dt'||t.id=='dcat'||t.id=='dn')auto();
+ else if(t.dataset.t){const x=tg(t.dataset.t);if(t.dataset.p=='color'){x.color=t.value;save()}}
+});
+document.addEventListener('change',e=>{const t=e.target;
+ if(t.dataset.f){F[t.dataset.f]=t.value;list()}
+ else if(t.dataset.t){const x=tg(t.dataset.t),p=t.dataset.p;if(p=='name'){const n=t.value.trim().replace(/\s+/g,' '),dup=D.tags.find(y=>y.id!=x.id&&norm(y.name)==norm(n));if(!n||dup){t.value=x.name;return}x.name=n}if(p=='group')x.group=t.value;save();tags()}
+ else if(t.id=='thm'){D.theme=t.value;th();save()}
+ else if(t.id=='fi'){const r=new FileReader();r.onload=()=>{$('#bk').value=r.result;$('#msg').textContent='Đã đọc tệp. Bấm “Khôi phục từ nội dung bên dưới” để áp dụng.'};r.readAsText(t.files[0])}
+});
+document.addEventListener('keydown',e=>{if(e.key!='Enter')return;
+ if(e.target.id=='nt'){const id=addTag(e.target.value);if(id&&!cur.tags.includes(id))cur.tags.push(id);save();pk();$('#nt').focus()}
+ if(e.target.id=='nc'){const id=addCol(e.target.value);if(id&&!cur.cols.includes(id))cur.cols.push(id);save();pk();$('#nc').focus()}
+});
+document.addEventListener('mousedown',e=>{if(e.target.closest('#tb'))e.preventDefault()});
+document.addEventListener('paste',e=>{if(e.target.id=='ed'){e.preventDefault();document.execCommand('insertText',false,e.clipboardData.getData('text/plain'))}});
+
+const tog=(a,v)=>{const i=a.indexOf(v);i<0?a.push(v):a.splice(i,1)};
+document.addEventListener('click',e=>{
+ const x=e.target.closest('[data-x]');
+ if(x){const k=x.dataset.x;if(k=='h')document.execCommand('formatBlock',false,'h2');else if(k=='q')document.execCommand('formatBlock',false,'blockquote');else if(k=='m'){const s=getSelection().toString();if(s)document.execCommand('insertHTML',false,'<mark>'+E(s)+'</mark>')}else document.execCommand(k);auto();return}
+ const b=e.target.closest('[data-a]');if(!b)return;
+ const a=b.dataset.a,id=b.dataset.id;
+ if(['ds','dd','dc','dt'].includes(a)&&!b.dataset.arm){b.dataset.arm=1;b.textContent='Bấm lại để xóa';return}
+ const d=D.docs.find(x=>x.id==W);
+ switch(a){
+ case'go':location.hash=id;break;
+ case'ns':openStory();break;
+ case'os':openStory(id);break;
+ case'cl':$('#dlg').close();break;
+ case'rt':cur.rating=cur.rating==+b.dataset.n?0:+b.dataset.n;pk();break;
+ case'fv':cur.fav=!cur.fav;pk();break;
+ case'tt':tog(cur.tags,id);pk();break;
+ case'tc':tog(cur.cols,id);pk();break;
+ case'ss':if(!cur.title.trim()){cur.title='';alert('Hãy nhập tên truyện.');break}
+  const o=cur._old;delete cur._old;const i=D.stories.findIndex(z=>z.id==cur.id);i<0?D.stories.unshift(cur):D.stories[i]=cur;save();$('#dlg').close();R();break;
+ case'ds':D.stories=D.stories.filter(z=>z.id!=cur.id);save();$('#dlg').close();R();break;
+ case'ft':tog(F.tags,id);library();break;
+ case'ac':{const c=addCol($('#ncol').value);if(c){CC=c;save();collections()}break}
+ case'sc':CC=id;collections();break;
+ case'dc':D.cols=D.cols.filter(c=>c.id!=id);D.stories.forEach(s=>s.cols=s.cols.filter(c=>c!=id));CC=null;save();collections();break;
+ case'at':{if(addTag($('#ntn').value,$('#ntg').value)){save();tags()}break}
+ case'ag':{const g=$('#ngr').value.trim();if(g&&!D.groups.includes(g)){D.groups.push(g);save();tags()}break}
+ case'dt':D.tags=D.tags.filter(t=>t.id!=id);D.stories.forEach(s=>s.tags=s.tags.filter(t=>t!=id));F.tags=F.tags.filter(t=>t!=id);save();tags();break;
+ case'nd':{const n=nd();D.docs.push(n);W=n.id;save();location.hash=='#words'?words():location.hash='words';break}
+ case'od':W=id;location.hash=='#words'?words():location.hash='words';break;
+ case'vs':d.vs.unshift({t:Date.now(),h:d.html});d.vs=d.vs.slice(0,30);save();$('#sv').textContent='Đã lưu phiên bản';break;
+ case'so':d.orig=d.html;save();$('#sv').textContent='Đã đặt làm bản gốc';break;
+ case'cmp':$('#dc').innerHTML=`<h2>Đối chiếu</h2><div class="cmp"><div><div class="lb">Bản gốc</div>${d.orig?clean(d.orig):'<i class="mu">Chưa đặt bản gốc.</i>'}</div><div><div class="lb">Bản hiện tại</div>${clean(d.html)}</div></div><div class="act"><button class="g" data-a="cl">Đóng</button></div>`;$('#dlg').showModal();break;
+ case'hi':$('#hist').innerHTML=d.vs.length?`<h3>Lịch sử phiên bản</h3>`+d.vs.map((v,i)=>`<div class="row" style="margin-bottom:6px"><span class="mu">${new Date(v.t).toLocaleString('vi-VN')}</span><button class="g" data-a="rs" data-id="${i}">Khôi phục</button></div>`).join(''):'<p class="mu">Chưa có phiên bản nào được lưu.</p>';break;
+ case'rs':d.vs.unshift({t:Date.now(),h:d.html});d.html=d.vs[+id+1].h;d.upd=Date.now();save();words();break;
+ case'dup':{const n=Object.assign(nd(),{title:d.title+' (bản sao)',cat:d.cat,html:d.html,orig:d.orig,notes:d.notes});D.docs.push(n);W=n.id;save();words();break}
+ case'dd':D.docs=D.docs.filter(z=>z.id!=W);W=null;save();words();break;
+ case'ex':$('#bk').value=JSON.stringify(D,null,1);$('#bk').select();$('#msg').textContent='Đã tạo bản sao lưu.';break;
+ case'cp':$('#bk').select();try{navigator.clipboard.writeText($('#bk').value);$('#msg').textContent='Đã sao chép.'}catch(_){$('#msg').textContent='Hãy chọn và sao chép thủ công.'}break;
+ case'im':try{const j=JSON.parse($('#bk').value);if(!Array.isArray(j.stories)||!Array.isArray(j.tags))throw 0;D=Object.assign({stories:[],tags:[],cols:[],docs:[],groups:D.groups,theme:'auto'},j);save();th();$('#msg').textContent='Đã khôi phục dữ liệu.'}catch(_){$('#msg').textContent='JSON không hợp lệ. Kiểm tra lại nội dung sao lưu.'}break;
+ }
+});
+addEventListener('hashchange',R);th();R();
+</script></body></html>
